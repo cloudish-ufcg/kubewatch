@@ -86,20 +86,28 @@ func (s *Slack) ObjectUpdated(oldObj, newObj interface{}) {
 }
 
 func notifySlack(s *Slack, obj interface{}, action string) {
-	e := kbEvent.New(obj, action)
-	api := slack.New(s.Token)
-	params := slack.PostMessageParameters{}
-	attachment := prepareSlackAttachment(e)
+	//e := kbEvent.New(obj, action)
+	//api := slack.New(s.Token)
+	//params := slack.PostMessageParameters{}
+	//attachment := prepareSlackAttachment(e)
+	//
+	//params.Attachments = []slack.Attachment{attachment}
+	//params.AsUser = true
+	//channelID, timestamp, err := api.PostMessage(s.Channel, "", params)
+	//if err != nil {
+	//	log.Printf("%s\n", err)
+	//	return
+	//}
 
-	params.Attachments = []slack.Attachment{attachment}
-	params.AsUser = true
-	channelID, timestamp, err := api.PostMessage(s.Channel, "", params)
+	log.Printf("Notification successfully %s", action)
+
+	file, err := os.Create("kubernetes-log-test.txt")
 	if err != nil {
-		log.Printf("%s\n", err)
-		return
+		log.Fatal("Cannot create file", err)
 	}
+	defer file.Close()
 
-	log.Printf("Message successfully sent to channel %s at %s", channelID, timestamp)
+	fmt.Fprintf(file, "Notification successfully %s", action)
 }
 
 func checkMissingSlackVars(s *Slack) error {
