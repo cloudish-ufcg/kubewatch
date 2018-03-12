@@ -74,14 +74,17 @@ func (s *Slack) Init(c *config.Config) error {
 }
 
 func (s *Slack) ObjectCreated(obj interface{}) {
+	fmt.Printf("Pod created - Slack handler %s")
 	notifySlack(s, obj, "created")
 }
 
 func (s *Slack) ObjectDeleted(obj interface{}) {
+	fmt.Printf("Pod deleted - Slack handler %s")
 	notifySlack(s, obj, "deleted")
 }
 
 func (s *Slack) ObjectUpdated(oldObj, newObj interface{}) {
+	fmt.Printf("Pod updated - Slack handler %s")
 	notifySlack(s, newObj, "updated")
 }
 
@@ -99,7 +102,7 @@ func notifySlack(s *Slack, obj interface{}, action string) {
 	//	return
 	//}
 
-	log.Printf("Notification successfully %s", action)
+	fmt.Printf("Notification successfully %s", action)
 
 	file, err := os.Create("kubernetes-log-test.txt")
 	if err != nil {
