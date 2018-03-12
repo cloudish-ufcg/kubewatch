@@ -54,6 +54,7 @@ type Controller struct {
 }
 
 func Start(conf *config.Config, eventHandler handlers.Handler) {
+	fmt.Printf("Starting controller...")
 	kubeClient := utils.GetClientOutOfCluster()
 
 	if conf.Resource.Pod {
