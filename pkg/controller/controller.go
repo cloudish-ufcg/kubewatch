@@ -302,7 +302,7 @@ func (c *Controller) Run(stopCh <-chan struct{}) {
 	defer utilruntime.HandleCrash()
 	defer c.queue.ShutDown()
 
-	c.logger.Info("Starting kubewatch controller")
+	c.logger.Info("Starting kubewatch controller - Testing code change")
 
 	go c.informer.Run(stopCh)
 
