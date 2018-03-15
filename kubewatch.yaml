@@ -4,22 +4,34 @@ metadata:
   name: kubewatch
   namespace: default
 spec:
+  serviceAccountName: event-exporter-sa
   containers:
-  - image: tuna/kubewatch:v0.0.1
+  - image: tuna/kubewatch:v0.0.3
     imagePullPolicy: Always
     name: kubewatch
     volumeMounts:
     - name: config-volume
       mountPath: /root
-  - image: gcr.io/skippbox/kubectl:v1.3.0
-    args:
-      - proxy
-      - "-p"
-      - "8080"
-    name: proxy
-    imagePullPolicy: Always
   restartPolicy: Always
   volumes:
   - name: config-volume
     configMap:
       name: kubewatch
+---
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: kubewatch
+data:
+  .kubewatch.yaml: |
+    handler:
+      slack:
+        token: "xoxb-329537243382-lfayd0h5xy0K22sUA6R9JRZo"
+        channel: "cloudish-test"
+    resource:
+      deployment: true
+      replicationcontroller: false
+      replicaset: false
+      daemonset: false
+      services: true
+      pod: true
